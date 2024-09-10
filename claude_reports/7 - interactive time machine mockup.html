@@ -1,0 +1,109 @@
+import React, { useState } from 'react';
+import { Calendar, Info } from 'lucide-react';
+
+const InteractiveTimeMachine = () => {
+  const [selectedEvent, setSelectedEvent] = useState(null);
+
+  const events = [
+    { id: 1, date: '2024-03-15', title: 'New Curriculum Introduced', description: 'A comprehensive STEM curriculum was implemented across all grades.', impact: 'Positive impact on Academic performance, with a 15% increase in standardized test scores over the following 6 months.' },
+    { id: 2, date: '2024-06-01', title: 'Teacher Training Program', description: 'All teachers underwent an intensive summer training program focused on personalized learning techniques.', impact: 'Gradual improvement in both Academic and Social-Emotional metrics, with full effects seen by the end of the following semester.' },
+    { id: 3, date: '2024-09-01', title: 'Increased Funding Approved', description: 'The school board approved a 10% increase in per-student funding, allocated primarily to technology and support staff.', impact: 'Projected to have a significant positive effect on all performance metrics over the next academic year.' },
+  ];
+
+  return (
+    <div className="bg-gray-100 p-4 rounded-lg shadow-lg max-w-2xl mx-auto">
+      <h2 className="text-2xl font-bold mb-4 text-blue-600">Time Machine</h2>
+      
+      {/* Time Slider (simplified representation) */}
+      <div className="bg-white p-4 rounded-lg mb-4">
+        <div className="h-8 bg-gray-200 rounded-full relative">
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-6 h-6 bg-blue-500 rounded-full"></div>
+        </div>
+        <p className="text-center mt-2">September 2024</p>
+      </div>
+      
+      {/* Performance Overview */}
+      <div className="bg-white p-4 rounded-lg mb-4">
+        <h3 className="text-lg font-semibold">Overall Performance</h3>
+        <div className="flex items-baseline">
+          <span className="text-4xl font-bold text-blue-500">B+</span>
+          <span className="ml-2 text-gray-500">Predicted</span>
+        </div>
+      </div>
+      
+      {/* Key Metrics */}
+      <div className="grid grid-cols-3 gap-4 mb-4">
+        {['Academic', 'Social-Emotional', 'Teacher Quality'].map((metric, index) => (
+          <div key={index} className="bg-white p-4 rounded-lg text-center">
+            <h4 className="font-semibold">{metric}</h4>
+            <p className={`text-2xl font-bold ${index === 0 ? 'text-blue-400' : index === 1 ? 'text-yellow-400' : 'text-orange-400'}`}>
+              {['A-', 'B', 'B+'][index]}
+            </p>
+          </div>
+        ))}
+      </div>
+      
+      {/* Historical Comparison with Interactive Events */}
+      <div className="bg-white p-4 rounded-lg mb-4">
+        <h3 className="text-lg font-semibold mb-2">Historical Comparison & Events</h3>
+        <div className="h-40 bg-gray-100 relative mb-2">
+          {/* Simplified graph representation */}
+          <div className="absolute bottom-0 left-0 right-0 h-1 bg-blue-400"></div>
+          
+          {/* Interactive event markers */}
+          {events.map((event, index) => (
+            <button
+              key={event.id}
+              className={`absolute bottom-0 w-6 h-6 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${index === 0 ? 'bg-red-500' : index === 1 ? 'bg-green-500' : 'bg-purple-500'}`}
+              style={{ left: `${25 + index * 25}%` }}
+              onClick={() => setSelectedEvent(event)}
+            >
+              <span className="sr-only">{event.title}</span>
+            </button>
+          ))}
+        </div>
+        <div className="flex justify-between text-sm text-gray-500">
+          <span>1 Year Ago</span>
+          <span>6mo Ago</span>
+          <span>Now</span>
+          <span>Predicted</span>
+        </div>
+      </div>
+      
+      {/* Event Details */}
+      {selectedEvent && (
+        <div className="bg-white p-4 rounded-lg mb-4">
+          <h3 className="text-lg font-semibold flex items-center">
+            <Calendar className="mr-2" size={20} />
+            {selectedEvent.title}
+          </h3>
+          <p className="text-sm text-gray-500 mb-2">{selectedEvent.date}</p>
+          <p className="mb-2">{selectedEvent.description}</p>
+          <h4 className="font-semibold flex items-center">
+            <Info className="mr-2" size={20} />
+            Impact
+          </h4>
+          <p>{selectedEvent.impact}</p>
+        </div>
+      )}
+      
+      {/* Event List */}
+      <div className="bg-white p-4 rounded-lg">
+        <h3 className="text-lg font-semibold mb-2">Significant Events</h3>
+        {events.map((event, index) => (
+          <div key={event.id} className="flex items-center mb-2">
+            <div className={`w-4 h-4 rounded-full mr-2 ${index === 0 ? 'bg-red-500' : index === 1 ? 'bg-green-500' : 'bg-purple-500'}`}></div>
+            <button 
+              className="text-left hover:text-blue-500 focus:outline-none focus:text-blue-500"
+              onClick={() => setSelectedEvent(event)}
+            >
+              {event.title}
+            </button>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default InteractiveTimeMachine;
